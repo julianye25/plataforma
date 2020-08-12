@@ -1,6 +1,7 @@
 const express = require('express');
 
 const config = require('./server/config');
+const { walker } = require('./controllers/recorrer');
 
 // database
 require('./database');
@@ -10,4 +11,6 @@ const app = config(express());
 // starting the server
 app.listen(app.get('port'), () => {
     console.log('server on port', app.get('port'), 'url' , 'http://localhost:3000/', );
+
+    walker();
 })
