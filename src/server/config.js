@@ -26,16 +26,13 @@ module.exports = app => {
     app.use(morgan('dev'));
     const storage = multer.diskStorage ({
         destination: path.join(__dirname, '../public/upload'),
+        limits: {fileSize: 1000000},
         filename: (req, file, cb) => {
             cb(null, file.originalname);
         }
     });
 
-    app.use(multer({
-        storage,
-        dest: path.join(__dirname, 'public/upload/temp'),
-        limits: {fileSize: 1000000}
-    }).array('pdf'));
+    app.use(multer({storage,}).array('pdf'));
     // app.use(multer({dest: path.join(__dirname, '../public/upload/temp')}).array('pdf'));
     app.use(express.urlencoded({extended: false}));
     app.use(express.json());
