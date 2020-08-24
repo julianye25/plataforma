@@ -8,8 +8,8 @@ const pdf2pic = new PDF2Pic({
   size: "600x600"         // output size in pixels
 });
  
-   function convert() {
-    pdf2pic.convert("../upload/test_1.pdf").then((resolve) => {
+   async function  convert() {
+    await pdf2pic.convert("../public/upload/test_1.pdf").then((resolve) => {
     console.log("image converter successfully!");
    
     return resolve;
@@ -17,6 +17,6 @@ const pdf2pic = new PDF2Pic({
   
 }
 
-convert();
+convert(); 
 
  

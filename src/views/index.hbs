@@ -5,20 +5,50 @@
         </h3>
     </div>
     <div class="card-body">
-        <form action="/pdfs" method="POST" enctype="multipart/form-data">
+        <form action="/file" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" name="pdf" multiple class="custom-file-input" id="inputGroup" aria-describedby="inputGroupFileAddon"  required>
+                        <input type="file" name="pdf" multiple class="custom-file-input" id="inputGroup"
+                            aria-describedby="inputGroupFileAddon" required>
                         <label class="custom-file-label" for="inputGroupFile">Chosse files</label>
                     </div>
                 </div>
             </div>
+            </form>
             <div class="form-group">
-                <button class="btn btn-danger">
-                  <i class="fa fa-upload"></i> Upload PDFs  
-                </button>
-            </div>
+                <form action="/pdfs" method="POST" enctype="multipart/form-data">
+                    <div class="d-flex flex-row bd-highlight mb-3">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-danger">
+                            <i class="fa fa-upload"></i> Convert 1
+                        </button>
+                    </div>
+                </form> 
+                    <form action="/pdfs2" method="POST" enctype="multipart/form-data">
+                        <div class="p-2 bd-highlight">
+                            <button class="btn btn-danger">
+                                <i class="fa fa-upload"></i> Convert 2
+                            </button>
+                        </div>
+                </div>
         </form>
+
+        <div class="d-flex justify-content-around">
+            <h3 "p-2 bd-highlight">convert 1   </h3>
+            <h3 "p-2 bd-highlight">convert 2</h3>
+        </div>
+
+        <div class="d-flex justify-content-around">
+            <p "p-2 bd-highlight">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat amet eligendi dolore
+                atque et odit eos
+                maiores! Neque nihil ab sit sequi assumenda quae ullam eius rerum, delectus ipsa perspiciatis.</p>
+
+            <p "p-2 bd-highlight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati velit quae ipsum
+                sunt excepturi id,
+                quasi fugiat, facere nesciunt ratione nulla explicabo culpa. Quas, provident suscipit laboriosam sunt
+                nulla perspiciatis.</p>
+        </div>
+
     </div>
 </div>

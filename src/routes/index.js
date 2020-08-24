@@ -8,7 +8,9 @@ module.exports = app => {
     
     router.get('/', home.index);
     router.get('/pdfs/pdf_id', pdf.index);
+    router.post('/files', pdf.up);
     router.post('/pdfs', pdf.create);
+    router.post('/pdfs2', pdf.create2);
     router.delete('/pdfs/pdf_id', pdf.remove);
 
     app.use(router);

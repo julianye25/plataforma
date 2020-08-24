@@ -6,11 +6,6 @@ const config = require('./server/config');
 // database
 require('./database');
 
-async  () => {
-    await  require('./modulos/pdf_a_png');
-} 
-
-
 const app = config(express());
 
 // starting the server
