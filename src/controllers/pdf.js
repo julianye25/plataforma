@@ -25,15 +25,17 @@ ctrl.up = ("/file", upload.fields('pdf'), (req, res, next) => {
 
 // convert 1
 ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
-  let nombreImagen = 1
+  let nombreEdit = 0;
+  let nombreImagen = 1;
   let arregloRutaImagenes = [];
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
     resultado.then(function (result) {
       arregloRutaImagenes.push(result);
-      if(arregloRutaImagenes.length % 2 === 0) {
+      if (arregloRutaImagenes.length % 2 === 0) {
+        nombreEdit++;
         const dosImagenes = arregloRutaImagenes.slice(0, 2);
-        unirImagenes(dosImagenes, nombreImagen);
+        unirImagenes(dosImagenes, nombreEdit);
         arregloRutaImagenes = [];
       }
     });
