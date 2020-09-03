@@ -3,7 +3,7 @@ const PDF2Pic = require("pdf2pic");
 async function convertir(nombreArchivo, nombreImagen) {
   // const nombreArchivoSinExtension = nombreArchivo.split('.')[0];
   const pdf2pic = new PDF2Pic({
-    density: 100,           // output pixels per inch
+    density: 200,           // output pixels per inch
     savename: nombreImagen,   // output file name
     savedir: "./src/public/upload/images",    // output file location
     format: "png",          // output file format

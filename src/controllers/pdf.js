@@ -7,6 +7,7 @@ const multer = require('multer');
 const pdf = require('../models/pdf');
 const convetirAImagen = require('../modulos/pdf_a_png');
 const unirImagenes = require('../modulos/cut');
+const archivoWord = require('../modulos/generateWord')
 
 
 // controladores
@@ -46,11 +47,19 @@ ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
 
 // convert 2
 ctrl.create2 = ("/pdfs2", upload.fields('pdf'), async (req, res, next) => {
-  console.log(req.files)
-  const newpdf = new pdf({ originalname: req.files });
-  console.log(newpdf);
-  res.render('pdf2');
-});
+  let nombreImagen = 1;
+  arregloRutaImagenes = []
+  req.files.forEach(pdfFile => {
+    const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
+    resultado.then(function (result) {
+      arregloRutaImagenes.push(result);
+      archivoWord(arregloRutaImagenes);
+      console.log(arregloRutaImagenes);
+    })
+    nombreImagen++;
+  });
+  res.send('Funcionando');
+})
 
 
 ctrl.remove = (req, res) => {

@@ -1,6 +1,5 @@
 const jimp = require('jimp');
 
-
 async function unir(images, nombreEdit) {
   // var images = ['images/rotulo1.png', 'images/rotulo2.png'];
   console.log(images);
