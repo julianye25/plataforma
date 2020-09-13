@@ -1,13 +1,18 @@
 const path = require('path');
-const { randomNumber } = require('../helpers/libs');
 const fs = require('fs-extra');
 const multer = require('multer');
 
 // Modelo de base de datos
 const pdf = require('../models/pdf');
+
+// Modulos
 const convetirAImagen = require('../modulos/pdf_a_png');
 const unirImagenes = require('../modulos/cut');
-const archivoWord = require('../modulos/generateWord')
+const archivoPdf = require('../modulos/generatePdf');
+
+// Helpers
+const files = require('../helpers/read');
+const eliminar = require('../helpers/unlink');
 
 
 // controladores
@@ -29,19 +34,28 @@ ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
   let nombreEdit = 0;
   let nombreImagen = 1;
   let arregloRutaImagenes = [];
+  let arregloFinal = [];
+
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-    resultado.then(function (result) {
+    resultado.then(async function (result) {
       arregloRutaImagenes.push(result);
       if (arregloRutaImagenes.length % 2 === 0) {
         nombreEdit++;
         const dosImagenes = arregloRutaImagenes.slice(0, 2);
-        unirImagenes(dosImagenes, nombreEdit);
+        await unirImagenes.unir(dosImagenes, nombreEdit);
         arregloRutaImagenes = [];
       }
     });
     nombreImagen++;
   });
+  files.forEach(file => {
+    file = "src/public/upload/final-images/" + file;
+    arregloFinal.push(file);
+  })
+
+  // Generador archivo 
+  await archivoPdf(arregloFinal);
   res.render('pdf');
 });
 
@@ -51,10 +65,10 @@ ctrl.create2 = ("/pdfs2", upload.fields('pdf'), async (req, res, next) => {
   arregloRutaImagenes = []
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-    resultado.then(function (result) {
+    resultado.then(async function (result) {
       arregloRutaImagenes.push(result);
-      archivoWord(arregloRutaImagenes);
-      console.log(arregloRutaImagenes);
+      // await archivoPdf(arregloRutaImagenes);
+      archivoPdf(arregloRutaImagenes);
     })
     nombreImagen++;
   });
