@@ -20,6 +20,7 @@
     "officegen": "^0.6.4",
     "pdf-lib": "^1.10.0",
     "pdf2pic": "^1.4.0",
+    "serve-favicon": "^2.5.0",
     "walk": "^2.3.14"
   },
   "devDependencies": {

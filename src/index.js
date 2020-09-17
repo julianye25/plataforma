@@ -10,8 +10,7 @@ const app = config(express());
 
 // starting the server
 app.listen(app.get('port'), () => {
-    console.log('server on port', app.get('port'), 'url' , 'http://localhost:3000/' );
+    console.log('server on port', app.get('port'), 'url', 'http://localhost:3000/');
 })
 
 
-  

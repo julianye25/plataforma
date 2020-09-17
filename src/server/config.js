@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars');
 const morgan = require('morgan');
 const multer = require('multer');
 const express = require('express');
+const favicon = require('serve-favicon')
 
 const routes = require('../routes/index');
 const errorHandler = require('errorhandler');
@@ -22,6 +23,7 @@ module.exports = app => {
     app.set('view engine', '.hbs');
 
     // middlewatres
+    app.use(favicon(path.join(__dirname, '../public', 'img', 'favicon.ico')))
     app.use(morgan('dev'));
     const storage = multer.diskStorage({
         destination: path.join(__dirname, '../public/upload'),
@@ -31,17 +33,20 @@ module.exports = app => {
         }
     });
 
+
+
     app.use(multer({ storage, }).array('pdf'));
     // app.use(multer({dest: path.join(__dirname, '../public/upload/temp')}).array('pdf'));
     app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
 
-
     // routes
     routes(app);
 
+
     // static files 
     app.use('/public', express.static(path.join(__dirname, '../public')));
+
 
     // errorhandlers
     if ('development' === app.get('env')) {

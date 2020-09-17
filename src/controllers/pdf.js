@@ -22,62 +22,65 @@ ctrl.index = (req, res) => {
 
 };
 
+
+// ========== Peticiones =============
 var upload = multer();
-
-// upload files
+// Subida files
 ctrl.up = ("/file", upload.fields('pdf'), (req, res, next) => {
-
 });
 
-// convert 1
-ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
-  let nombreEdit = 0;
-  let nombreImagen = 1;
-  let arregloRutaImagenes = [];
-  let arregloFinal = [];
-
-  req.files.forEach(pdfFile => {
-    const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-    resultado.then(async function (result) {
-      arregloRutaImagenes.push(result);
-      if (arregloRutaImagenes.length % 2 === 0) {
-        nombreEdit++;
-        const dosImagenes = arregloRutaImagenes.slice(0, 2);
-        await unirImagenes.unir(dosImagenes, nombreEdit);
-        arregloRutaImagenes = [];
-      }
-    });
-    nombreImagen++;
-  });
-  files.forEach(file => {
-    file = "src/public/upload/final-images/" + file;
-    arregloFinal.push(file);
-  })
-
-  // Generador archivo 
-  await archivoPdf(arregloFinal);
-  res.render('pdf');
-});
-
-// convert 2
+// Formato 1
 ctrl.create2 = ("/pdfs2", upload.fields('pdf'), async (req, res, next) => {
+  // Inicializacion de variables y arreglos
   let nombreImagen = 1;
   arregloRutaImagenes = []
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
     resultado.then(async function (result) {
       arregloRutaImagenes.push(result);
-      // await archivoPdf(arregloRutaImagenes);
       archivoPdf(arregloRutaImagenes);
     })
     nombreImagen++;
   });
-  res.send('Funcionando');
+  res.render('pdf');
 })
 
+// Formato 2
+ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
+  // Inicializacion de variables y arreglos
+  let nombreEdit = 0;
+  let nombreImagen = 1;
+  let arregloRutaImagenes = [];
+
+
+  req.files.forEach(pdfFile => {
+    const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
+    resultado.then(function (result) {
+      arregloRutaImagenes.push(result);
+      if (arregloRutaImagenes.length % 2 === 0) {
+        nombreEdit++;
+        const dosImagenes = arregloRutaImagenes.slice(0, 2);
+        unirImagenes.unir(dosImagenes, nombreEdit);
+        arregloRutaImagenes = [];
+      }
+    });
+    nombreImagen++;
+  });
+  let arregloFinal = [];
+  
+
+  files.forEach(file => {
+    file = "src/public/upload/final-images/" + file;
+    arregloFinal.push(file);
+  });
+
+  
+  archivoPdf(arregloFinal)
+
+  res.render('pdf2');
+});
 
 ctrl.remove = (req, res) => {
-
 };
 
 module.exports = ctrl;
