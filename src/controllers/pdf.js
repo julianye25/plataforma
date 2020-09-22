@@ -11,9 +11,8 @@ const unirImagenes = require('../modulos/cut');
 const archivoPdf = require('../modulos/generatePdf');
 
 // Helpers
-const files = require('../helpers/read');
+const file = require('../helpers/read');
 const eliminar = require('../helpers/unlink');
-
 
 // controladores
 const ctrl = {};
@@ -22,9 +21,9 @@ ctrl.index = (req, res) => {
 
 };
 
-
 // ========== Peticiones =============
 var upload = multer();
+
 // Subida files
 ctrl.up = ("/file", upload.fields('pdf'), (req, res, next) => {
 });
@@ -36,10 +35,13 @@ ctrl.create2 = ("/pdfs2", upload.fields('pdf'), async (req, res, next) => {
   arregloRutaImagenes = []
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-    resultado.then(async function (result) {
+    resultado.then(function (result) {
+      console.log(result);
       arregloRutaImagenes.push(result);
       archivoPdf(arregloRutaImagenes);
+      console.log(result);
     })
+
     nombreImagen++;
   });
   res.render('pdf');
@@ -51,7 +53,6 @@ ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
   let nombreEdit = 0;
   let nombreImagen = 1;
   let arregloRutaImagenes = [];
-
 
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
@@ -66,16 +67,11 @@ ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
     });
     nombreImagen++;
   });
-  let arregloFinal = [];
-  
 
-  files.forEach(file => {
-    file = "src/public/upload/final-images/" + file;
-    arregloFinal.push(file);
-  });
+  setTimeout(async () => {
+    await archivoPdf(file);
+  }, 15000);
 
-  
-  archivoPdf(arregloFinal)
 
   res.render('pdf2');
 });

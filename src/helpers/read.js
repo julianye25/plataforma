@@ -1,7 +1,13 @@
 const fs = require('fs');
 
 let directory = "src/public/upload/final-images";
+var rutas = []
 
-let files = fs.readdirSync(directory);
+setTimeout(() => {
+    fs.readdirSync(directory).forEach(file => {
+        file = "src/public/upload/final-images/" + file
+        rutas.push(file)
+    });
+}, 20000);
 
-module.exports = files
+module.exports = rutas

@@ -1,8 +1,6 @@
 const { PDFDocument } = require('pdf-lib');
 const fs = require('fs');
 
-run().catch(err => console.log(err));
-
 async function run(direccion) {
     // Create a new document and add a new page
     const doc = await PDFDocument.create();
