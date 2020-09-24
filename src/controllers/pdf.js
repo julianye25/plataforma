@@ -17,6 +17,9 @@ const eliminar = require('../helpers/unlink');
 // controladores
 const ctrl = {};
 
+// Arrays para eliminar
+var pdfs = [];
+
 ctrl.index = (req, res) => {
 
 };
@@ -50,13 +53,14 @@ ctrl.create2 = ("/pdfs2", upload.fields('pdf'), async (req, res, next) => {
 // Formato 2
 ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
   // Inicializacion de variables y arreglos
-  let nombreEdit = 0;
+  var nombreEdit = 0;
   let nombreImagen = 1;
   let arregloRutaImagenes = [];
+  var promises = []
 
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-    resultado.then(function (result) {
+    promises.push(resultado.then(function (result) {
       arregloRutaImagenes.push(result);
       if (arregloRutaImagenes.length % 2 === 0) {
         nombreEdit++;
@@ -64,14 +68,15 @@ ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
         unirImagenes.unir(dosImagenes, nombreEdit);
         arregloRutaImagenes = [];
       }
-    });
+    }))
     nombreImagen++;
-  });
+  })
 
-  setTimeout(async () => {
-    await archivoPdf(file);
-  }, 15000);
-
+  arrayDeImagenes = await file()
+  Promise.all(promises).then(() =>
+    console.log(nombreEdit),
+    archivoPdf(arrayDeImagenes),
+  );
 
   res.render('pdf2');
 });

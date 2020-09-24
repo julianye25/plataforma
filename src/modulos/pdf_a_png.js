@@ -1,6 +1,6 @@
 const PDF2Pic = require("pdf2pic");
 
-async function convertir(nombreArchivo, nombreImagen) {
+function convertir(nombreArchivo, nombreImagen) {
   // const nombreArchivoSinExtension = nombreArchivo.split('.')[0];
   const pdf2pic = new PDF2Pic({
     density: 200,           // output pixels per inch
@@ -11,7 +11,7 @@ async function convertir(nombreArchivo, nombreImagen) {
     // size: 2480,                                 // default 1024  
   });
   const ruta = "./src/public/upload/" + nombreArchivo;
-  const resultado = await pdf2pic.convert(ruta).then((resolve) => {
+  const resultado = pdf2pic.convert(ruta).then((resolve) => {
     const rutaImagen = "./src/public/upload/images/" + nombreImagen + "_1.png";
     return rutaImagen;
   });
