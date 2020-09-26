@@ -10,12 +10,11 @@ function convertir(nombreArchivo, nombreImagen) {
     size: "2480x1654",         // output size in pixels
     // size: 2480,                                 // default 1024  
   });
-  const ruta = "./src/public/upload/" + nombreArchivo;
-  const resultado = pdf2pic.convert(ruta).then((resolve) => {
+  const ruta = "./src/public/upload/pdfs/" + nombreArchivo;
+  return resultado = pdf2pic.convert(ruta).then((resolve) => {
     const rutaImagen = "./src/public/upload/images/" + nombreImagen + "_1.png";
     return rutaImagen;
-  });
-  return resultado;
+  });;
 }
 
 module.exports = convertir;

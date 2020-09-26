@@ -1,14 +1,11 @@
 const fs = require('fs');
 
-let directory = "src/public/upload/final-images";
-var rutas = []
-
-async function leer() {
-    fs.readdirSync(directory).forEach(async file => {
-        file = "src/public/upload/final-images/" + file
-        await rutas.push(file)
+function leer(directorio) {
+    let rutas = []
+    fs.readdirSync(directorio).forEach(file => {
+        file = directorio + file
+        rutas.push(file)
     });
-
     return rutas
 }
 

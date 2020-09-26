@@ -35,51 +35,68 @@ ctrl.up = ("/file", upload.fields('pdf'), (req, res, next) => {
 ctrl.create2 = ("/pdfs2", upload.fields('pdf'), async (req, res, next) => {
   // Inicializacion de variables y arreglos
   let nombreImagen = 1;
-  arregloRutaImagenes = []
+  arregloRutaImagenes = [];
+  let arregloPromesasImagenes = [];
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-    resultado.then(function (result) {
-      console.log(result);
-      arregloRutaImagenes.push(result);
-      archivoPdf(arregloRutaImagenes);
-      console.log(result);
-    })
-
+    arregloPromesasImagenes.push(resultado);
     nombreImagen++;
   });
-  res.render('pdf');
+  Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
+    archivoPdf(arregloImagenes).then(() => {
+      res.render('pdf');
+      eliminarArchivos();
+    }
+    );
+    
+  });
 })
 
 // Formato 2
 ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
   // Inicializacion de variables y arreglos
-  var nombreEdit = 0;
   let nombreImagen = 1;
-  let arregloRutaImagenes = [];
-  var promises = []
+  let promesasConvertirPdfAImagen = [];
 
   req.files.forEach(pdfFile => {
     const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-    promises.push(resultado.then(function (result) {
-      arregloRutaImagenes.push(result);
-      if (arregloRutaImagenes.length % 2 === 0) {
-        nombreEdit++;
-        const dosImagenes = arregloRutaImagenes.slice(0, 2);
-        unirImagenes.unir(dosImagenes, nombreEdit);
-        arregloRutaImagenes = [];
-      }
-    }))
+    promesasConvertirPdfAImagen.push(resultado);
     nombreImagen++;
+  });
+  Promise.all(promesasConvertirPdfAImagen).then((arregloNombresImagenes) => {
+  let promesasImagenesUnidas = [];
+    if(arregloNombresImagenes.length % 2 !== 0) {
+      arregloNombresImagenes.push('./src/public/img/blanco.png');
+    }
+    let nombreImagenUnida = 1;
+    for (let indice = 0; indice < arregloNombresImagenes.length; indice+=2) {
+      const arregloDeDosImagenes = arregloNombresImagenes.slice(indice, indice + 2);
+      promesasImagenesUnidas.push(unirImagenes.unir(arregloDeDosImagenes, nombreImagenUnida));
+      nombreImagenUnida++;
+    }
+    Promise.all(promesasImagenesUnidas).then(() => {
+      const proporcion = arregloNombresImagenes.length * 5;
+      setTimeout(() => {
+        const arregloImagenesUnidades = file("src/public/upload/final-images/");
+        console.log(arregloImagenesUnidades);
+        archivoPdf(arregloImagenesUnidades).then(() => {
+          res.render('pdf2');
+          eliminarArchivos();
+        });
+        
+      }, proporcion)
+    });
   })
-
-  arrayDeImagenes = await file()
-  Promise.all(promises).then(() =>
-    console.log(nombreEdit),
-    archivoPdf(arrayDeImagenes),
-  );
-
-  res.render('pdf2');
 });
+
+function eliminarArchivos() {
+  const arregloPdfsABorrar = file("src/public/upload/pdfs/");
+  eliminar(arregloPdfsABorrar);
+  const arregloImagenesABorrar = file("src/public/upload/images/");
+  eliminar(arregloImagenesABorrar);
+  const arregloImagenesFinalesABorrar = file("src/public/upload/final-images/");
+  eliminar(arregloImagenesFinalesABorrar);
+}
 
 ctrl.remove = (req, res) => {
 };

@@ -27,8 +27,6 @@ async function run(direccion) {
             }
         }
     }
-
-
     // Write the PDF to a file
     fs.writeFileSync('./src/public/upload/convert-images/test.pdf', await doc.save());
 }

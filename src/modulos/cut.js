@@ -7,7 +7,7 @@ function unir(images, nombreEdit) {
     jimps.push(jimp.read(images[i]));
   }
 
-  Promise.all(jimps).then(function (data) {
+  return Promise.all(jimps).then(function (data) {
     return Promise.all(jimps);
   }).then(async function (data) {
     data[0].composite(data[1], 1239.10, 0);

@@ -26,7 +26,7 @@ module.exports = app => {
     app.use(favicon(path.join(__dirname, '../public', 'img', 'favicon.ico')))
     app.use(morgan('dev'));
     const storage = multer.diskStorage({
-        destination: path.join(__dirname, '../public/upload'),
+        destination: path.join(__dirname, '../public/upload/pdfs'),
         limits: { fileSize: 1000000 },
         filename: (req, file, cb) => {
             cb(null, file.originalname);
