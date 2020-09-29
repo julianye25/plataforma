@@ -7,7 +7,7 @@ const pdf = require('../controllers/pdf')
 module.exports = app => {
     
     router.get('/', home.index);
-    router.get('/pdfs/pdf_id', pdf.index);
+    router.get('/pdf/descargar', pdf.descargar);
     router.post('/files', pdf.up);
     router.post('/pdfs', pdf.create);
     router.post('/pdfs2', pdf.create2);

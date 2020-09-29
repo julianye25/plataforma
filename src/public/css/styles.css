@@ -21,7 +21,6 @@ body {
 .card-body form button  {
     background-color: #d789d7;
     color: #ffffff;
-    
 }
 
 .card img {
@@ -35,8 +34,23 @@ iframe {
     direction: none;
     border: none;
     overflow: scroll;
+  
 }
 
 h2 {
     color: blue;
+}
+
+.container  #inicio{
+    background-color: #9d65c9;
+    text-decoration: none;
+    margin-bottom: 10px;
+    top: 60px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.container #inicio a{
+    text-decoration: none;
+    color: #ffffff;
 }

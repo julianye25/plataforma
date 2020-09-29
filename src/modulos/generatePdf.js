@@ -28,7 +28,7 @@ async function run(direccion) {
         }
     }
     // Write the PDF to a file
-    fs.writeFileSync('./src/public/upload/convert-images/test.pdf', await doc.save());
+    fs.writeFileSync('./src/public/upload/convert-images/rotulos.pdf', await doc.save());
 }
 
 module.exports = run;

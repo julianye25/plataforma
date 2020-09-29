@@ -17,11 +17,8 @@ const eliminar = require('../helpers/unlink');
 // controladores
 const ctrl = {};
 
-// Arrays para eliminar
-var pdfs = [];
-
-ctrl.index = (req, res) => {
-
+ctrl.descargar = (req, res) => {
+  res.download(path.join(__dirname, "../public/upload/convert-images/rotulos.pdf")); // Set disposition and send it.
 };
 
 // ========== Peticiones =============
@@ -44,7 +41,10 @@ ctrl.create2 = ("/pdfs2", upload.fields('pdf'), async (req, res, next) => {
   });
   Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
     archivoPdf(arregloImagenes).then(() => {
-      res.render('pdf');
+      // res.render('pdf');
+      res.status(200).json({
+        ok: true,
+      });
       eliminarArchivos();
     }
     );
@@ -80,7 +80,10 @@ ctrl.create = ("/pdfs", upload.fields('pdf'), async (req, res, next) => {
         const arregloImagenesUnidades = file("src/public/upload/final-images/");
         console.log(arregloImagenesUnidades);
         archivoPdf(arregloImagenesUnidades).then(() => {
-          res.render('pdf2');
+          // res.render('pdf2');
+          res.status(200).json({
+            ok: true,
+          });
           eliminarArchivos();
         });
         
