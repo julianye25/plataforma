@@ -34,14 +34,15 @@ ctrl.create2 =
   async (req, res, next) => {
     // Inicializacion de variables y arreglos
     let nombreImagen = 1;
+    var resultado;
     arregloRutaImagenes = [];
     let arregloPromesasImagenes = [];
     req.files.forEach((pdfFile) => {
       setTimeout(() => {
-        const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-        arregloPromesasImagenes.push(resultado);
-        nombreImagen++;
+        resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
       }, 1000);
+      nombreImagen++;
+      arregloPromesasImagenes.push(resultado);
     });
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
       archivoPdf(arregloImagenes).then(() => {
