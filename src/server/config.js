@@ -20,18 +20,6 @@ module.exports = app => {
 
     // settings
     app.set('port', process.env.PORT || 3000);
-    // app.set('views', path.join(__dirname, '../views'));
-    // app.engine('.hbs', exphbs({
-    //     defaultLayout: 'main',
-    //     partialsDir: path.join(app.get('views'), 'partials'),
-    //     layoutsDir: path.join(app.get('views'), 'layouts'),
-    //     extname: '.hbs',
-    //     helpers: require('./helpers'),
-    // }));
-    // app.set('view engine', '.hbs');
-
-    // middlewatres
-    app.use(favicon(path.join(__dirname, '../public', 'img', 'favicon.ico')))
     app.use(morgan('dev'));
     const storage = multer.diskStorage({
         destination: path.join(__dirname, '../public/upload/pdfs'),
