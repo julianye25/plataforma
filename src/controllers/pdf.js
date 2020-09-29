@@ -83,13 +83,15 @@ ctrl.create =
         setTimeout(() => {
           const arregloImagenesUnidades = file('src/public/upload/final-images/');
           console.log(arregloImagenesUnidades);
-          archivoPdf(arregloImagenesUnidades).then(() => {
-            // res.render('pdf2');
-            res.status(200).json({
-              ok: true,
+          for (let indice = 0; indice < arregloImagenesUnidades.indice; indice += 20) {
+            const arregloDeVeinteImagenes = arregloImagenesUnidades.slice(indice, indice + 20);
+            archivoPdf(arregloDeVeinteImagenes).then(() => {
+              res.status(200).json({
+                ok: true,
+              });
+              eliminarArchivos();
             });
-            eliminarArchivos();
-          });
+          }
         }, proporcion);
       });
     });
