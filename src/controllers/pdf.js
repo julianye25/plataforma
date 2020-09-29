@@ -83,7 +83,7 @@ ctrl.create =
         setTimeout(() => {
           const arregloImagenesUnidades = file('src/public/upload/final-images/');
           console.log(arregloImagenesUnidades);
-          for (let indice = 0; indice < arregloImagenesUnidades.indice; indice += 20) {
+          for (let indice = 0; indice < arregloImagenesUnidades.length; indice += 20) {
             const arregloDeVeinteImagenes = arregloImagenesUnidades.slice(indice, indice + 20);
             archivoPdf(arregloDeVeinteImagenes).then(() => {
               res.status(200).json({
