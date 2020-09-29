@@ -1,7 +1,8 @@
 const ctrl = {};
 
 ctrl.index = (req, res) => {
-    res.render('index');
+  console.log('run');
+  res.send('Running');
 };
 
 module.exports = ctrl;

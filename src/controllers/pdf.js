@@ -37,9 +37,11 @@ ctrl.create2 =
     arregloRutaImagenes = [];
     let arregloPromesasImagenes = [];
     req.files.forEach((pdfFile) => {
-      const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-      arregloPromesasImagenes.push(resultado);
-      nombreImagen++;
+      setTimeout(() => {
+        const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
+        arregloPromesasImagenes.push(resultado);
+        nombreImagen++;
+      }, 1000);
     });
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
       archivoPdf(arregloImagenes).then(() => {
