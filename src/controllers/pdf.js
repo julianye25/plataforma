@@ -38,9 +38,7 @@ ctrl.create2 =
     arregloRutaImagenes = [];
     let arregloPromesasImagenes = [];
     req.files.forEach((pdfFile) => {
-      setTimeout(() => {
-        resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
-      }, 1000);
+      resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
       nombreImagen++;
       arregloPromesasImagenes.push(resultado);
     });
@@ -50,7 +48,7 @@ ctrl.create2 =
         res.status(200).json({
           ok: true,
         });
-        eliminarArchivos();
+        // eliminarArchivos();
       });
     });
   });
