@@ -35,7 +35,7 @@ ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
     arregloRutaImagenes = [];
     let arregloPromesasImagenes = [];
 
-    for (const pdfFile of req.files) {
+    for (let pdfFile of req.files) {
       resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
       nombreImagen++;
       arregloPromesasImagenes.push(resultado);
@@ -59,11 +59,11 @@ ctrl.create =
     let nombreImagen = 1;
     let promesasConvertirPdfAImagen = [];
 
-    req.files.forEach((pdfFile) => {
+    for (let pdfFile of req.files) {
       const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
       promesasConvertirPdfAImagen.push(resultado);
       nombreImagen++;
-    });
+    }
     Promise.all(promesasConvertirPdfAImagen).then((arregloNombresImagenes) => {
       let promesasImagenesUnidas = [];
       if (arregloNombresImagenes.length % 2 !== 0) {
