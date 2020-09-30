@@ -6,8 +6,8 @@ async function run(direccion) {
     const doc = await PDFDocument.create();
     var page = doc.addPage();
     var contImagenes = 0;
-    for (let indice = 0; indice < direccion.length; indice += 20) {
-        const arregloDeVeinteImagenes = direccion.slice(indice, indice + 20);
+    for (let indice = 0; indice < direccion.length; indice += 10) {
+        const arregloDeVeinteImagenes = direccion.slice(indice, indice + 10);
     if (arregloDeVeinteImagenes) {
         for (let i = 0; i < arregloDeVeinteImagenes.length; i++) {
             element = arregloDeVeinteImagenes[i];
