@@ -27,7 +27,7 @@ async function run(direccion) {
                         width: 600, height: 400, y: 30
                     });
                     contImagenes = 0
-                    if ((i + 1) != direccion.length) {
+                    if ((i + 1) != imagenes.length) {
                         page = doc.addPage();
                     }
                 }
