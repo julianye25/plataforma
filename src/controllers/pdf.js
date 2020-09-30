@@ -43,13 +43,15 @@ ctrl.create2 =
       arregloPromesasImagenes.push(resultado);
     });
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
-      archivoPdf(arregloImagenes).then(() => {
-        // res.render('pdf');
-        res.status(200).json({
-          ok: true,
+      for (let indice = 0; indice < arregloImagenes.length; indice += 10) {
+        const arreglo = arregloImagenes.slice(indice, indice + 10);
+        archivoPdf(arregloImagenes).then(() => {
+          res.status(200).json({
+            ok: true,
+          });
+          eliminarArchivos();
         });
-        // eliminarArchivos();
-      });
+      }
     });
   });
 
@@ -82,16 +84,13 @@ ctrl.create =
         const proporcion = arregloNombresImagenes.length * 5;
         setTimeout(() => {
           const arregloImagenesUnidades = file('src/public/upload/final-images/');
-          for (let indice = 0; indice < arregloImagenesUnidades.length; indice += 10) {
-            const imagenes = arregloImagenesUnidades.slice(indice, indice + 10);
-            console.log(imagenes);
-              archivoPdf(imagenes).then(() => {
-                res.status(200).json({
-                  ok: true,
-                });
-                eliminarArchivos();
+          console.log(arregloImagenesUnidades);
+            archivoPdf(arregloImagenesUnidades).then(() => {
+              res.status(200).json({
+                ok: true,
               });
-          }
+              eliminarArchivos();
+            });
         }, proporcion);
       });
     });
