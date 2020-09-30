@@ -9,8 +9,8 @@ async function run(direccion) {
     for (let indice = 0; indice < direccion.length; indice += 20) {
         const arregloDeVeinteImagenes = direccion.slice(indice, indice + 20);
     if (arregloDeVeinteImagenes) {
-        for (let i = 0; i < direccion.length; i++) {
-            element = direccion[i];
+        for (let i = 0; i < arregloDeVeinteImagenes.length; i++) {
+            element = arregloDeVeinteImagenes[i];
             img = fs.readFileSync(element);
             img = await doc.embedPng(img);
             if (contImagenes === 0) {
