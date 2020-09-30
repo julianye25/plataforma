@@ -82,13 +82,16 @@ ctrl.create =
         const proporcion = arregloNombresImagenes.length * 5;
         setTimeout(() => {
           const arregloImagenesUnidades = file('src/public/upload/final-images/');
-          console.log(arregloImagenesUnidades);
-            archivoPdf(arregloImagenesUnidades).then(() => {
-              res.status(200).json({
-                ok: true,
+          for (let indice = 0; indice < arregloImagenesUnidades.length; indice += 10) {
+            const imagenes = arregloImagenesUnidades.slice(indice, indice + 10);
+            console.log(imagenes);
+              archivoPdf(imagenes).then(() => {
+                res.status(200).json({
+                  ok: true,
+                });
+                eliminarArchivos();
               });
-              eliminarArchivos();
-            });
+          }
         }, proporcion);
       });
     });

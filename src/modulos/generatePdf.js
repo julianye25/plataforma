@@ -6,11 +6,9 @@ async function run(direccion) {
     const doc = await PDFDocument.create();
     var page = doc.addPage();
     var contImagenes = 0;
-    for (let indice = 0; indice < direccion.length; indice += 10) {
-        const arregloDeVeinteImagenes = direccion.slice(indice, indice + 10);
-    if (arregloDeVeinteImagenes) {
-        for (let i = 0; i < arregloDeVeinteImagenes.length; i++) {
-            element = arregloDeVeinteImagenes[i];
+    if (direccion) {
+        for (let i = 0; i < direccion.length; i++) {
+            element = direccion[i];
             img = fs.readFileSync(element);
             img = await doc.embedPng(img);
             if (contImagenes === 0) {
@@ -27,12 +25,10 @@ async function run(direccion) {
                     page = doc.addPage();
                 }
             }
-
         }
     }
     // Write the PDF to a file
     fs.writeFileSync('./src/public/upload/convert-images/rotulos.pdf', await doc.save());
-}
 }
 
 module.exports = run;
