@@ -43,15 +43,12 @@ ctrl.create2 =
       arregloPromesasImagenes.push(resultado);
     });
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
-      for (let indice = 0; indice < arregloImagenes.length; indice += 10) {
-        const arreglo = arregloImagenes.slice(indice, indice + 10);
-        archivoPdf(arreglo).then(() => {
-          res.status(200).json({
-            ok: true,
-          });
-          eliminarArchivos();
+      archivoPdf(arregloImagenes).then(() => {
+        res.status(200).json({
+          ok: true,
         });
-      }
+        eliminarArchivos();
+      });
     });
   });
 
