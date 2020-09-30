@@ -27,11 +27,12 @@ async function run(direccion) {
                     page = doc.addPage();
                 }
             }
+
         }
     }
-}
     // Write the PDF to a file
     fs.writeFileSync('./src/public/upload/convert-images/rotulos.pdf', await doc.save());
+}
 }
 
 module.exports = run;
