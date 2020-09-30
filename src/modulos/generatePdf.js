@@ -6,7 +6,9 @@ async function run(direccion) {
     const doc = await PDFDocument.create();
     var page = doc.addPage();
     var contImagenes = 0;
-    if (direccion) {
+    for (let indice = 0; indice < direccion.length; indice += 20) {
+        const arregloDeVeinteImagenes = direccion.slice(indice, indice + 20);
+    if (arregloDeVeinteImagenes) {
         for (let i = 0; i < direccion.length; i++) {
             element = direccion[i];
             img = fs.readFileSync(element);
@@ -27,6 +29,7 @@ async function run(direccion) {
             }
         }
     }
+}
     // Write the PDF to a file
     fs.writeFileSync('./src/public/upload/convert-images/rotulos.pdf', await doc.save());
 }
