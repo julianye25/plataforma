@@ -28,20 +28,18 @@ var upload = multer();
 ctrl.up = ('/file', upload.fields('pdf'), (req, res, next) => {});
 
 // Formato 1
-ctrl.create2 =
-  ('/pdfs2',
-  upload.fields('pdf'),
-  async (req, res, next) => {
+ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
     // Inicializacion de variables y arreglos
     let nombreImagen = 1;
     var resultado;
     arregloRutaImagenes = [];
     let arregloPromesasImagenes = [];
-    req.files.forEach((pdfFile) => {
+
+    for (const pdfFile of req.files) {
       resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
       nombreImagen++;
       arregloPromesasImagenes.push(resultado);
-    });
+    }
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
       archivoPdf(arregloImagenes).then(() => {
         res.status(200).json({
