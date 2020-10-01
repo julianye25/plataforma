@@ -48,7 +48,6 @@ ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
         eliminarArchivos();
       });
     });
-    res.end();
   });
 
 // Formato 2
