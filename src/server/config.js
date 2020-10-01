@@ -9,6 +9,7 @@ const favicon = require('serve-favicon')
 const routes = require('../routes/index');
 const errorHandler = require('errorhandler');
 const { TIMEOUT } = require('dns');
+// const { Connection } = require('mongoose');
 
 module.exports = app => {
     // CORS
@@ -18,8 +19,9 @@ module.exports = app => {
         res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
         res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-        next();
+        Connection: Keep-alive
     
+        next();
     });
 
     // settings
