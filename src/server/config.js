@@ -8,6 +8,7 @@ const favicon = require('serve-favicon')
 
 const routes = require('../routes/index');
 const errorHandler = require('errorhandler');
+const { TIMEOUT } = require('dns');
 
 module.exports = app => {
     // CORS
@@ -15,6 +16,7 @@ module.exports = app => {
         res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         res.header('Access-Control-Allow-Methods', "POST, GET, PUT, DELETE, OPTIONS");
+        res.header(timeout = 4, max = 100)
         next();
     });
 
