@@ -14,7 +14,7 @@ const { TIMEOUT } = require('dns');
 module.exports = app => {
     // CORS
     app.use(function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Origin', '*', always);
         res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
         res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -26,7 +26,7 @@ module.exports = app => {
     app.use(morgan('dev'));
     const storage = multer.diskStorage({
         destination: path.join(__dirname, '../public/upload/pdfs'),
-        limits: { fileSize: 100000000 },
+        limits: { fileSize: 100000000000 },
         filename: (req, file, cb) => {
             cb(null, file.originalname);
         }
