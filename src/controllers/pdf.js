@@ -48,6 +48,7 @@ ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
         eliminarArchivos();
       });
     });
+    res.end();
   });
 
 // Formato 2
@@ -58,7 +59,7 @@ ctrl.create =
     // Inicializacion de variables y arreglos
     let nombreImagen = 1;
     let promesasConvertirPdfAImagen = [];
-
+req
     for (let pdfFile of req.files) {
       const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
       promesasConvertirPdfAImagen.push(resultado);
