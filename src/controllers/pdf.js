@@ -28,10 +28,7 @@ var upload = multer();
 ctrl.up = ('/file', upload.fields('pdf'), (req, res, next) => {});
 
 // Formato 1
-ctrl.create2 =
-  ('/pdfs2',
-  upload.fields('pdf'),
-  async (req, res, next) => {
+ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
     // Inicializacion de variables y arreglos
     let nombreImagen = 1;
     var resultado;
@@ -44,20 +41,21 @@ ctrl.create2 =
       arregloPromesasImagenes.push(resultado);
     }
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
-      archivoPdf(arregloImagenes).then(() => {
+      for (let indice = 0; indice < arregloImagenes.length; indice + 20) {
+        const lotesDe20 = arregloImagenes.slice(indice, indice + 20)
+        archivoPdf(lotesDe20)
+      }
         res.status(200).json({
           ok: true,
         });
         eliminarArchivos();
-      });
+     
     });
   });
 
 // Formato 2
 ctrl.create =
-  ('/pdfs',
-  upload.fields('pdf'),
-  async (req, res, next) => {
+  ('/pdfs', upload.fields('pdf'), async (req, res, next) => {
     // Inicializacion de variables y arreglos
     let nombreImagen = 1;
     let promesasConvertirPdfAImagen = [];
