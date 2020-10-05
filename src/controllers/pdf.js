@@ -41,15 +41,12 @@ ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
       arregloPromesasImagenes.push(resultado);
     }
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
-      for (let indice = 0; indice < arregloImagenes.length; indice + 20) {
-        const lotesDe20 = arregloImagenes.slice(indice, indice + 20)
-        archivoPdf(lotesDe20)
-      }
+      archivoPdf(arregloImagenes).then(() => {
         res.status(200).json({
           ok: true,
         });
         eliminarArchivos();
-     
+      });
     });
   });
 
