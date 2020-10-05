@@ -28,6 +28,8 @@ var upload = multer();
 ctrl.up = ('/file', upload.fields('pdf'), (req, res, next) => {});
 
 // Formato 1
+
+var lote = [];
 ctrl.create2 =
   ('/pdfs2',
   upload.fields('pdf'),
@@ -45,7 +47,7 @@ ctrl.create2 =
     }
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
       for (var indice = 0; indice < arregloImagenes.length; indice += 20) {
-        lotesDe20 = arregloImagenes.slice(indice, indice + 20);
+        const lotesDe20 = arregloImagenes.slice(indice, indice + 20);
         lote.push(lotesDe20);
       }
       archivoPdf(lote).then(() => {
