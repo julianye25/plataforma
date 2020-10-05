@@ -48,7 +48,7 @@ ctrl.create2 =
         lotesDe20 = arregloImagenes.slice(indice, indice + 20);
         lote.push(lotesDe20);
       }
-      archivoPdf(lotesDe20).then(() => {
+      archivoPdf(lote).then(() => {
         res.status(200).json({
           ok: true,
         });
