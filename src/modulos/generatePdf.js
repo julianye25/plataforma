@@ -1,7 +1,7 @@
 const { PDFDocument } = require('pdf-lib');
 const fs = require('fs');
 
-async function run(direccion) {
+async function run(direccion, number) {
     // Create a new document and add a new page
     const doc = await PDFDocument.create();
     var page = doc.addPage();
@@ -28,7 +28,7 @@ async function run(direccion) {
         }
     }
     // Write the PDF to a file
-    fs.writeFileSync('./src/public/upload/convert-images/rotulos.pdf', await doc.save());
+    fs.writeFileSync(`./src/public/upload/convert-images/rotulos${number}.pdf`, await doc.save());
 }
 
 module.exports = run;

@@ -9,6 +9,7 @@ const pdf = require('../models/pdf');
 const convetirAImagen = require('../modulos/pdf_a_png');
 const unirImagenes = require('../modulos/cut');
 const archivoPdf = require('../modulos/generatePdf');
+const pdfFinal = require('../modulos/marge')
 
 // Helpers
 const file = require('../helpers/read');
@@ -18,7 +19,9 @@ const eliminar = require('../helpers/unlink');
 const ctrl = {};
 
 ctrl.descargar = (req, res) => {
-  res.download(path.join(__dirname, '../public/upload/convert-images/rotulos.pdf')); // Set disposition and send it.
+  setTimeout(() => {
+    res.download(path.join(__dirname, '../public/upload/Unido/rotulos.pdf')); // Set disposition and send it.
+  }, 10000);
 };
 
 // ========== Peticiones =============
@@ -41,12 +44,27 @@ ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
       arregloPromesasImagenes.push(resultado);
     }
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
-      archivoPdf(arregloImagenes).then(() => {
-        res.status(200).json({
-          ok: true,
-        });
-        eliminarArchivos();
-      });
+      let promesasImagenes = []
+      let numero = 1;
+      console.log(arregloImagenes.length);
+      for (let indice = 0; indice < arregloImagenes.length; indice += 20) {
+        var lote20 = arregloImagenes.slice(indice, indice + 20)
+        promesasImagenes.push(archivoPdf(lote20, numero))
+        numero++
+      }
+      Promise.all(promesasImagenes).then(async () => {
+
+        const archivosPDF = file('src/public/upload/convert-images/')
+        
+          pdfFinal(archivosPDF)
+            res.status(200).json({
+              ok: true,
+            });
+            setTimeout(() => {
+              
+              eliminarArchivos();
+            }, 5000);
+      })
     });
   });
 
@@ -56,6 +74,7 @@ ctrl.create =
     // Inicializacion de variables y arreglos
     let nombreImagen = 1;
     let promesasConvertirPdfAImagen = [];
+
     req;
     for (let pdfFile of req.files) {
       const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
@@ -96,6 +115,8 @@ function eliminarArchivos() {
   eliminar(arregloImagenesABorrar);
   const arregloImagenesFinalesABorrar = file('src/public/upload/final-images/');
   eliminar(arregloImagenesFinalesABorrar);
+  const archivosPDF = file('src/public/upload/convert-images/')
+  eliminar(archivosPDF)
 }
 
 ctrl.remove = (req, res) => {};
