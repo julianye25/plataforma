@@ -9,7 +9,6 @@ const pdf = require('../models/pdf');
 const convetirAImagen = require('../modulos/pdf_a_png');
 const unirImagenes = require('../modulos/cut');
 const archivoPdf = require('../modulos/generatePdf');
-const pdfFinal = require('../modulos/marge')
 
 // Helpers
 const file = require('../helpers/read');
@@ -19,9 +18,7 @@ const eliminar = require('../helpers/unlink');
 const ctrl = {};
 
 ctrl.descargar = (req, res) => {
-  setTimeout(() => {
-    res.download(path.join(__dirname, '../public/upload/convert-images/rotulos.pdf')); // Set disposition and send it.
-  }, 10000);
+  res.download(path.join(__dirname, '../public/upload/convert-images/rotulos.pdf')); // Set disposition and send it.
 };
 
 // ========== Peticiones =============
@@ -30,7 +27,7 @@ var upload = multer();
 // Subida files
 ctrl.up = ('/file', upload.fields('pdf'), (req, res, next) => {});
 
-// Formato 1
+// Funcion formato 1
 ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
     // Inicializacion de variables y arreglos
     let nombreImagen = 1;
@@ -38,62 +35,54 @@ ctrl.create2 = ('/pdfs2', upload.fields('pdf'), async (req, res, next) => {
     arregloRutaImagenes = [];
     let arregloPromesasImagenes = [];
 
+    // Lista de pdfs
     for (let pdfFile of req.files) {
-      resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
+      resultado = convetirAImagen(pdfFile.originalname, nombreImagen); // Convertir pdfs en imagenes
       nombreImagen++;
       arregloPromesasImagenes.push(resultado);
     }
     Promise.all(arregloPromesasImagenes).then((arregloImagenes) => {
-      let promesasDeLotesDeImagenes = [];
-      let nombre = 1
-      for (let indice = 0; indice < arregloImagenes.length; indice++) {
-        let lote20 = arregloImagenes.slice(indice, indice + 20);
-        promesasDeLotesDeImagenes.push(archivoPdf(lote20, numero))
-        nombre++
-      }
+      // Unir todas las imagenes en un solo pdf
+      archivoPdf(arregloImagenes).then(() => {
+        res.status(200).json({
+          ok: true,
+        });
 
-      Promise.all(promesasDeLotesDeImagenes).then(() => {
-        const archivosPdf = file('src/public/upload/convert-images');
-          pdfFinal(archivosPdf)
-          res.status(200).json({
-            ok: true,
-          });
-          setTimeout(() => {
-            eliminarArchivos();
-          }, 5000);
-        })
+        // Eliminar archivos basura
+        eliminarArchivos();
       });
     });
+  });
 
-
-// Formato 2
-ctrl.create =
-  ('/pdfs', upload.fields('pdf'), async (req, res, next) => {
+//  Funcion formato 2
+ctrl.create = ('/pdfs', upload.fields('pdf'), async (req, res, next) => {
     // Inicializacion de variables y arreglos
     let nombreImagen = 1;
     let promesasConvertirPdfAImagen = [];
-    req;
+
+    // Lista de pdfs
     for (let pdfFile of req.files) {
-      const resultado = convetirAImagen(pdfFile.originalname, nombreImagen);
+      const resultado = convetirAImagen(pdfFile.originalname, nombreImagen); // convertir pdfs en imagenes
       promesasConvertirPdfAImagen.push(resultado);
       nombreImagen++;
     }
     Promise.all(promesasConvertirPdfAImagen).then((arregloNombresImagenes) => {
       let promesasImagenesUnidas = [];
+      // arreglos de dos imagenes para la union
       if (arregloNombresImagenes.length % 2 !== 0) {
         arregloNombresImagenes.push('./src/public/img/blanco.png');
       }
       let nombreImagenUnida = 1;
       for (let indice = 0; indice < arregloNombresImagenes.length; indice += 2) {
         const arregloDeDosImagenes = arregloNombresImagenes.slice(indice, indice + 2);
-        promesasImagenesUnidas.push(unirImagenes.unir(arregloDeDosImagenes, nombreImagenUnida));
+        promesasImagenesUnidas.push(unirImagenes.unir(arregloDeDosImagenes, nombreImagenUnida)); // Union de las imagenes
         nombreImagenUnida++;
       }
       Promise.all(promesasImagenesUnidas).then(() => {
         const proporcion = arregloNombresImagenes.length * 5;
         setTimeout(() => {
           const arregloImagenesUnidades = file('src/public/upload/final-images/');
-          console.log(arregloImagenesUnidades);
+          // Union de las imagenes en un solo pdf
           archivoPdf(arregloImagenesUnidades).then(() => {
             res.status(200).json({
               ok: true,
